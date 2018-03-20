@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "331650872855",
+    "firebase_url": "https://myveripay.firebaseio.com",
+    "project_id": "myveripay",
+    "storage_bucket": "myveripay.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331650872855:android:6e53a724c76c95f7",
+        "android_client_info": {
+          "package_name": "com.berstek.myveripy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "331650872855-7k8mchllv6pfi2qjlgb5er5cvref14tj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.berstek.myveripy",
+            "certificate_hash": "8db0d63de64616e770dfc76902b25a53c89146ac"
+          }
+        },
+        {
+          "client_id": "331650872855-30otekbm1nb9t5u11ihnelhcioric4u5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAalxGB8Wjro3PijdyWDIiM0YF_N3wEvLE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "331650872855-30otekbm1nb9t5u11ihnelhcioric4u5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
