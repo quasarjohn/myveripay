@@ -1,11 +1,15 @@
 package com.berstek.myveripy.presentor.payment;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 
 import com.berstek.myveripy.data_access.PaymentDA;
 import com.berstek.myveripy.model.Payment;
 import com.berstek.myveripy.utils.Utils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -45,10 +49,23 @@ public class PaymentPresentor {
     });
   }
 
+  public void pushPayment(final Payment payment) {
+    paymentDA.pushPayment(payment).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+      @Override
+      public void onComplete(@NonNull Task<DocumentReference> task) {
+        if (task.isSuccessful()) {
+          paymentPresentorCallback.onPayment(payment);
+        }
+      }
+    });
+  }
+
   public interface PaymentPresentorCallback {
     void onDebit(Payment payment);
 
     void onCredit(Payment payment);
+
+    void onPayment(Payment payment);
   }
 
   public void setPaymentPresentorCallback(PaymentPresentorCallback paymentPresentorCallback) {

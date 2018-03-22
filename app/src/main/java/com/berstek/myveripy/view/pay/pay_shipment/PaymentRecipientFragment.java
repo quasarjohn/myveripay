@@ -55,7 +55,8 @@ public class PaymentRecipientFragment extends Fragment implements TextWatcher,
     // Inflate the layout for this fragment
     view = inflater.inflate(R.layout.fragment_payment_recipient, container, false);
 
-    searchParam = getArguments().getString("searchParam");
+    if (getArguments() != null)
+      searchParam = getArguments().getString("searchParam");
 
     payIdEdit = view.findViewById(R.id.payIdEdit);
     contactsBtn = view.findViewById(R.id.contactsBtn);

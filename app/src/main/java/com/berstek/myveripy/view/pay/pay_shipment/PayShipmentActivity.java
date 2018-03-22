@@ -1,5 +1,6 @@
 package com.berstek.myveripy.view.pay.pay_shipment;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,11 +11,13 @@ import android.widget.TextView;
 
 import com.berstek.myveripy.R;
 import com.berstek.myveripy.model.PayTransaction;
+import com.berstek.myveripy.model.Payment;
 import com.berstek.myveripy.model.User;
-import com.berstek.myveripy.presentor.pay_shipment.ConfirmationFragment;
+import com.berstek.myveripy.view.confirmation.ConfirmationFragment;
 import com.berstek.myveripy.presentor.pay_shipment.PayShipmentPresentor;
 import com.berstek.myveripy.presentor.pay_shipment.PayShipmentPresentor.PayShipmentPresentorCallback;
 import com.berstek.myveripy.utils.Utils;
+import com.berstek.myveripy.view.home.MainActivity;
 import com.berstek.myveripy.view.upload_image.PlainImageListAdapter;
 import com.berstek.myveripy.view.upload_image.UploadImageFragment;
 
@@ -127,6 +130,17 @@ public class PayShipmentActivity extends AppCompatActivity implements
   @Override
   public void onTransactionPushed() {
     ConfirmationFragment confirmationFragment = new ConfirmationFragment();
+    confirmationFragment.setCancelable(false);
     confirmationFragment.show(getFragmentManager(), null);
+
+    confirmationFragment.setConfirmationFragmentCallback(new ConfirmationFragment.ConfirmationFragmentCallback() {
+      @Override
+      public void onConfirmationDone() {
+        Intent intent = new Intent(PayShipmentActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+      }
+    });
   }
 }

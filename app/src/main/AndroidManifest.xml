@@ -23,7 +23,10 @@
         <activity
             android:name=".view.search.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:theme="@style/AppTheme.NoActionBar" android:name=".view.pay.pay_shipment.PayShipmentActivity"></activity>
+        <activity
+            android:name=".view.pay.pay_shipment.PayShipmentActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".view.pay.send_money.SendMoneyActivity"></activity>
     </application>
 
 </manifest>

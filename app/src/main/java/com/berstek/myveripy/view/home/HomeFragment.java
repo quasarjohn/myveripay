@@ -21,6 +21,7 @@ import com.berstek.myveripy.utils.Utils;
 import com.berstek.myveripy.view.partners.PartnersFragment;
 import com.berstek.myveripy.view.pay.PaymentTypeSelectionDialogFragment;
 import com.berstek.myveripy.view.pay.pay_shipment.PayShipmentActivity;
+import com.berstek.myveripy.view.pay.send_money.SendMoneyActivity;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment implements View.OnClickListener,
     HomePresentor.HomePresentorCallback, RecviewItemClickCallback,
     PaymentPresentor.PaymentPresentorCallback,
-    PaymentTypeSelectionDialogFragment.PaymentTypeCallback{
+    PaymentTypeSelectionDialogFragment.PaymentTypeCallback {
 
   private View view;
   private TextView balanceTxt;
@@ -153,13 +154,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     updateBalanceTxt();
   }
 
+  @Override
+  public void onPayment(Payment payment) {
+
+  }
+
   private void updateBalanceTxt() {
     balanceTxt.setText(String.format("%s %s", Utils.getPesoSign(), Utils.formatDf(balance)));
   }
 
   @Override
   public void onSendMoney() {
-
+    Intent intent = new Intent(getActivity(), SendMoneyActivity.class);
+    startActivity(intent);
   }
 
   @Override
