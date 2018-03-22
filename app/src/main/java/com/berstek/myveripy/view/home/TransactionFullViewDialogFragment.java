@@ -79,7 +79,8 @@ public class TransactionFullViewDialogFragment extends CustomDialogFragment
     linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
     imagesRecview.setLayoutManager(linearLayoutManager);
 
-    adapter = new PlainImageListAdapterHorizontal(transaction.getImgs_url(), getActivity());
+    if (transaction.getImgs_url() != null)
+      adapter = new PlainImageListAdapterHorizontal(transaction.getImgs_url(), getActivity());
     imagesRecview.setAdapter(adapter);
 
     titleTxt.setText(transaction.getTitle());

@@ -1,5 +1,7 @@
 package com.berstek.myveripy.presentor.payment;
 
+import android.app.Activity;
+
 import com.berstek.myveripy.data_access.PaymentDA;
 import com.berstek.myveripy.model.Payment;
 import com.berstek.myveripy.utils.Utils;
@@ -14,12 +16,15 @@ public class PaymentPresentor {
 
   private PaymentPresentorCallback paymentPresentorCallback;
 
-  public PaymentPresentor() {
+  private Activity activity;
+
+  public PaymentPresentor(Activity activity) {
     paymentDA = new PaymentDA();
+    this.activity = activity;
   }
 
   public void init() {
-    paymentDA.queryCredits(Utils.getUid()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+    paymentDA.queryCredits(Utils.getUid()).addSnapshotListener(activity, new EventListener<QuerySnapshot>() {
       @Override
       public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
         for (DocumentChange dc : documentSnapshots.getDocumentChanges()) {
@@ -29,7 +34,7 @@ public class PaymentPresentor {
       }
     });
 
-    paymentDA.queryDebits(Utils.getUid()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+    paymentDA.queryDebits(Utils.getUid()).addSnapshotListener(activity, new EventListener<QuerySnapshot>() {
       @Override
       public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
         for (DocumentChange dc : documentSnapshots.getDocumentChanges()) {

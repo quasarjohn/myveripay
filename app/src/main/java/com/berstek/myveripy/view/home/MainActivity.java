@@ -1,5 +1,6 @@
 package com.berstek.myveripy.view.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
@@ -14,19 +15,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.berstek.myveripy.R;
+import com.berstek.myveripy.callback.AuthCallback;
 import com.berstek.myveripy.data_access.TransactionDA;
 import com.berstek.myveripy.model.User;
+import com.berstek.myveripy.presentor.auth.GoogleAuthPresentor;
 import com.berstek.myveripy.presentor.home.MainActivityPresentor;
 import com.berstek.myveripy.utils.CustomImageUtils;
 import com.berstek.myveripy.utils.Utils;
+import com.berstek.myveripy.view.auth.AuthActivity;
 import com.berstek.myveripy.view.search.SearchUserFragment;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener,
-    View.OnClickListener, MainActivityPresentor.MainActivityPresentorCallback {
+    View.OnClickListener, MainActivityPresentor.MainActivityPresentorCallback, AuthCallback {
 
   private ImageView searchBtn;
   private MainActivityPresentor mainActivityPresentor;
@@ -38,6 +45,7 @@ public class MainActivity extends AppCompatActivity
   private ImageView dpBlurred;
 
   private CustomImageUtils customImageUtils;
+  private GoogleAuthPresentor authPresentor;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +56,8 @@ public class MainActivity extends AppCompatActivity
 
     FirebaseApp.initializeApp(this);
 
-
+    authPresentor = new GoogleAuthPresentor(this, FirebaseAuth.getInstance());
+    authPresentor.setGoogleAuthCallback(this);
 
     DrawerLayout drawer = findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -77,7 +86,7 @@ public class MainActivity extends AppCompatActivity
 
     customImageUtils = new CustomImageUtils();
 
-    mainActivityPresentor = new MainActivityPresentor();
+    mainActivityPresentor = new MainActivityPresentor(this);
     mainActivityPresentor.setMainActivityPresentorCallback(this);
     mainActivityPresentor.init();
   }
@@ -100,6 +109,8 @@ public class MainActivity extends AppCompatActivity
 
     if (id == R.id.nav_camera) {
       // Handle the camera action
+    } else if (id == R.id.nav_logout) {
+      authPresentor.signOut();
     }
 
     DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -119,5 +130,25 @@ public class MainActivity extends AppCompatActivity
     payIdTxt.setText(user.getPay_id());
     new Utils(this).loadImage(user.getPhoto_url(), dp);
     customImageUtils.blurImage(this, user.getPhoto_url(), dpBlurred, false);
+  }
+
+  @Override
+  public void onAuthSuccess(FirebaseUser user, GoogleSignInAccount account) {
+
+  }
+
+  @Override
+  public void onSignOutSuccess() {
+    Intent intent = new Intent(this, AuthActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    startActivity(intent);
+
+  }
+
+  @Override
+  protected void onDestroy() {
+
+    super.onDestroy();
   }
 }

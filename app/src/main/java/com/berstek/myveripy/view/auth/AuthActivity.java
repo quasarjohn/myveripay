@@ -60,6 +60,11 @@ public class AuthActivity extends AppCompatActivity implements AuthCallback,
   }
 
   @Override
+  public void onSignOutSuccess() {
+
+  }
+
+  @Override
   protected void onStart() {
     super.onStart();
 

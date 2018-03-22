@@ -17,6 +17,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -88,6 +89,15 @@ public class GoogleAuthPresentor implements View.OnClickListener, GoogleApiClien
     }
   }
 
+  public void signOut() {
+    FirebaseAuth.getInstance().signOut();
+    googleSignInClient.signOut().addOnSuccessListener(new OnSuccessListener<Void>() {
+      @Override
+      public void onSuccess(Void aVoid) {
+        googleAuthCallback.onSignOutSuccess();
+      }
+    });
+  }
 
   public void setGoogleAuthCallback(AuthCallback googleAuthCallback) {
     this.googleAuthCallback = googleAuthCallback;

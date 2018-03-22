@@ -69,7 +69,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     homePresentor.setHomePresentorCallback(this);
     homePresentor.init();
 
-    paymentPresentor = new PaymentPresentor();
+    paymentPresentor = new PaymentPresentor(getActivity());
     paymentPresentor.setPaymentPresentorCallback(this);
     paymentPresentor.init();
 
