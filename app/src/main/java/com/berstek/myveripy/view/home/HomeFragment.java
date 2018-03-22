@@ -17,6 +17,7 @@ import com.berstek.myveripy.model.Payment;
 import com.berstek.myveripy.presentor.home.HomePresentor;
 import com.berstek.myveripy.presentor.payment.PaymentPresentor;
 import com.berstek.myveripy.utils.Utils;
+import com.berstek.myveripy.view.partners.PartnersFragment;
 import com.berstek.myveripy.view.pay.PaymentTypeSelectionDialogFragment;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -97,6 +98,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     if (id == R.id.payFab) {
       paymentTypeSelectionDialogFragment = new PaymentTypeSelectionDialogFragment();
       paymentTypeSelectionDialogFragment.show(getActivity().getFragmentManager(), null);
+    } else if (id == R.id.cashInFab) {
+      PartnersFragment partnersFragment = new PartnersFragment();
+      partnersFragment.show(getActivity().getFragmentManager(), null);
+
     }
 
     fam.close(false);
