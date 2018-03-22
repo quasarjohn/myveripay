@@ -93,12 +93,18 @@ public class PaymentRecipientFragment extends Fragment implements TextWatcher,
 
   @Override
   public void onUserQueried(List<User> users) {
-    User u = users.get(0);
-    new Utils(getActivity()).loadImage(u.getPhoto_url(), dp);
-    nameTxt.setText(u.getFirst_name() + " " + u.getLast_name());
+    if (users.size() > 0) {
+      User u = users.get(0);
+      new Utils(getActivity()).loadImage(u.getPhoto_url(), dp);
+      nameTxt.setText(u.getFirst_name() + " " + u.getLast_name());
 
-    if (paymentRecipientFragmentCallback != null)
-      paymentRecipientFragmentCallback.onUserQueried(u);
+      if (paymentRecipientFragmentCallback != null)
+        paymentRecipientFragmentCallback.onUserQueried(u);
+
+      dp.setVisibility(View.VISIBLE);
+      nameTxt.setVisibility(View.VISIBLE);
+      addressTxt.setVisibility(View.VISIBLE);
+    }
   }
 
   class InputHandler implements Runnable {

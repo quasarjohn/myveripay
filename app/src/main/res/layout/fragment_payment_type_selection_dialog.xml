@@ -37,6 +37,7 @@
 
 
                     <ImageView
+                        android:id="@+id/sendMoneyImg"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginEnd="8dp"
@@ -66,6 +67,7 @@
 
 
                     <ImageView
+                        android:id="@+id/payShipmentImg"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginEnd="8dp"

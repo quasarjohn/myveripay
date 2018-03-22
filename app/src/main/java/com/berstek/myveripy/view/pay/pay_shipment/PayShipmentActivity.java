@@ -49,7 +49,8 @@ public class PayShipmentActivity extends AppCompatActivity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_pay_shipment);
 
-    searchParam = getIntent().getExtras().getString("searchParam");
+    if (getIntent().getExtras() != null)
+      searchParam = getIntent().getExtras().getString("searchParam");
 
     getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
 
