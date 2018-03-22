@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.berstek.myveripy.R;
+import com.berstek.myveripy.view.payment_history.PaymentHistoryFragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -50,13 +51,21 @@ public class ViewPagerFragment extends Fragment {
     fragments.add(homeFragment);
     tab.addTab(tab.newTab());
 
-    HomeFragment homeFragment1 = new HomeFragment();
-    fragments.add(homeFragment1);
+    PaymentHistoryFragment paymentHistoryFragment = new PaymentHistoryFragment();
+    fragments.add(paymentHistoryFragment);
     tab.addTab(tab.newTab());
 
     viewPager.setAdapter(new ViewpagerAdapter(getActivity().getSupportFragmentManager()));
     viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab));
     tab.setupWithViewPager(viewPager);
+
+    for (int i = 0; i < fragments.size(); i++) {
+      if (i == 0) {
+        tab.getTabAt(i).setCustomView(getActivity().getLayoutInflater().inflate(R.layout.tablayout_view, null));
+      } else {
+        tab.getTabAt(i).setCustomView(getActivity().getLayoutInflater().inflate(R.layout.tablayout_view_deselected, null));
+      }
+    }
 
     tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
       @Override
