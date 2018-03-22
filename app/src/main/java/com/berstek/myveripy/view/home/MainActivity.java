@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity
     searchBtn.setOnClickListener(this);
 
     getSupportFragmentManager().beginTransaction().
-        replace(R.id.main_container, new HomeFragment()).commit();
+        replace(R.id.main_container, new ViewPagerFragment()).commit();
 
     navHeader = (ConstraintLayout) navigationView.getHeaderView(0);
 

@@ -79,23 +79,6 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!--<TextView-->
-        <!--android:id="@+id/textView6"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:fontFamily="sans-serif-light"-->
-        <!--android:text="There's nothing yet"-->
-        <!--android:textColor="@color/primaryTextColor"-->
-        <!--android:textSize="@dimen/font_20" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/textView7"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:fontFamily="sans-serif-light"-->
-        <!--android:text="Your current transactions will appear here"-->
-        <!--android:textColor="@color/primaryTextColor" />-->
     </android.support.v7.widget.RecyclerView>
 
     <com.github.clans.fab.FloatingActionMenu

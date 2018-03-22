@@ -8,11 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berstek.myveripy.R;
 import com.berstek.myveripy.model.PayTransaction;
 import com.berstek.myveripy.model.Payment;
 import com.berstek.myveripy.model.User;
+import com.berstek.myveripy.presentor.payment.PaymentPresentor;
 import com.berstek.myveripy.view.confirmation.ConfirmationFragment;
 import com.berstek.myveripy.presentor.pay_shipment.PayShipmentPresentor;
 import com.berstek.myveripy.presentor.pay_shipment.PayShipmentPresentor.PayShipmentPresentorCallback;
@@ -27,7 +29,8 @@ import java.util.UUID;
 
 public class PayShipmentActivity extends AppCompatActivity implements
     PaymentRecipientFragment.PaymentRecipientFragmentCallback, View.OnClickListener,
-    UploadImageFragment.ImageUploaderCallback, PayShipmentPresentorCallback {
+    UploadImageFragment.ImageUploaderCallback, PayShipmentPresentorCallback,
+    PaymentPresentor.PaymentPresentorCallback {
 
   private PaymentRecipientFragment paymentRecipientFragment;
   private DateSelectionFragment dateSelectionFragment;
@@ -47,6 +50,10 @@ public class PayShipmentActivity extends AppCompatActivity implements
 
   private PayShipmentPresentor payShipmentPresentor;
 
+  private PaymentPresentor paymentPresentor;
+
+  private double cash;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -56,6 +63,10 @@ public class PayShipmentActivity extends AppCompatActivity implements
       searchParam = getIntent().getExtras().getString("searchParam");
 
     getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+
+    paymentPresentor = new PaymentPresentor(this);
+    paymentPresentor.setPaymentPresentorCallback(this);
+    paymentPresentor.init();
 
     payShipmentPresentor = new PayShipmentPresentor();
     payShipmentPresentor.setPayShipmentPresentorCallback(this);
@@ -96,23 +107,30 @@ public class PayShipmentActivity extends AppCompatActivity implements
 
   @Override
   public void onClick(View view) {
-    transaction.setTitle(titleEdit.getText().toString());
-    transaction.setPrice(Double.parseDouble(priceEdit.getText().toString()));
-    transaction.setDetails(detailsEdit.getText().toString());
-    transaction.setDate_created(System.currentTimeMillis());
-    //TODO hardcoded due date in 2 days
-    transaction.setDue_date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 2));
+    Double amount = Double.parseDouble(priceEdit.getText().toString());
 
-    transaction.setTransaction_id("TRN-" + UUID.randomUUID().toString().substring(0, 7).toUpperCase());
-    transaction.setStatus(0);
+    if (amount < cash) {
+      transaction.setTitle(titleEdit.getText().toString());
+      transaction.setPrice(amount);
+      transaction.setDetails(detailsEdit.getText().toString());
+      transaction.setDate_created(System.currentTimeMillis());
+      //TODO hardcoded due date in 2 days
+      transaction.setDue_date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 2));
 
-    int[] dates = Utils.getDateInt(new Date());
+      transaction.setTransaction_id("TRN-" + UUID.randomUUID().toString().substring(0, 7).toUpperCase());
+      transaction.setStatus(0);
 
-    transaction.setYear(dates[0]);
-    transaction.setMonth(dates[1]);
-    transaction.setDay(dates[2]);
+      int[] dates = Utils.getDateInt(new Date());
 
-    payShipmentPresentor.pushTransaction(transaction);
+      transaction.setYear(dates[0]);
+      transaction.setMonth(dates[1]);
+      transaction.setDay(dates[2]);
+
+      payShipmentPresentor.pushTransaction(transaction);
+    } else {
+      Toast.makeText(this, "Insufficient funds.", Toast.LENGTH_LONG).show();
+    }
+
   }
 
   @Override
@@ -142,5 +160,20 @@ public class PayShipmentActivity extends AppCompatActivity implements
         startActivity(intent);
       }
     });
+  }
+
+  @Override
+  public void onDebit(Payment payment) {
+    cash -= payment.getAmount();
+  }
+
+  @Override
+  public void onCredit(Payment payment) {
+    cash += payment.getAmount();
+  }
+
+  @Override
+  public void onPayment(Payment payment) {
+
   }
 }
